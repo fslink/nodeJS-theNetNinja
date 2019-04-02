@@ -1,22 +1,10 @@
-var event = require('events');
-var util = require('util');
+var http = require('http');
+var fs = require('fs');
 
-var Person = function(name){
-	this.name = name;
-};
+var myReadStream = fs.createReadStream(__dirname + '/readMe.txt', 'utf8');
+var myWriteStream = fs.createWriteStream(__dirname + '/writeMe.txt');
 
-util.inherits(Person, event.EventEmitter);
-
-var james = new Person('james');
-var patrick = new Person('patrick');
-var youssef = new Person('youssef');
-var people = [james, patrick, youssef];
-
-people.forEach(function(element, index) {
-	element.on('speak', function(msg){
-		console.log(element.name + ' said: ' + msg);
-	})
+myReadStream.on('data', function(chunk){
+	console.log('new chunk received:');
+	myWriteStream.write(chunk);
 });
-
-james.emit('speak', 'hey dudes');
-youssef.emit('speak', 'bsartek mon frere');
