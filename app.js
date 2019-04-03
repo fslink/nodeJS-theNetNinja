@@ -1,10 +1,13 @@
-var http = require('http');
-var fs = require('fs');
+var express = require('express');
 
-var myReadStream = fs.createReadStream(__dirname + '/readMe.txt', 'utf8');
-var myWriteStream = fs.createWriteStream(__dirname + '/writeMe.txt');
+var app = express();
 
-myReadStream.on('data', function(chunk){
-	console.log('new chunk received:');
-	myWriteStream.write(chunk);
+app.get('/', function(req, res){
+	res.send('Welcome home!');
 });
+
+app.get('/contact', function(req, res){
+	res.send('Contact us');
+});
+
+app.listen(3000);
